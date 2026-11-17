@@ -1,0 +1,278 @@
+<div class="container">
+  <div class="container-header">
+    <h2>Reservas</h2>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-6 d-flex flex-column gap-3">
+      <!-- Buscar Cliente -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Buscar Cliente</h5>
+          <p class="card-text">Ingresa el tipo y número de documento del cliente</p>
+
+          <div class="d-flex gap-2 align-items-end flex-wrap flex-sm-nowrap">
+            <select class="form-select w-auto" aria-label="Tipo de documento" style="height: 58px"
+              [(ngModel)]="tipoDocumento">
+              <option value="1" selected>C.C.</option>
+              <option value="2">C.E.</option>
+              <option value="3">Pasaporte</option>
+            </select>
+
+            <div class="form-floating flex-grow-1">
+              <input type="text" class="form-control" id="floatingInput" placeholder="Número de documento"
+                [(ngModel)]="numeroDocumentoCliente" />
+              <label for="floatingInput">Número de documento</label>
+            </div>
+
+            <button class="btn btn-custom-primary" type="submit" style="height: 58px" (click)="buscarCliente()">
+              Buscar
+            </button>
+          </div>
+
+          <div class="d-flex flex-column gap-3 mt-3" *ngIf="clienteEncontrado; else sinCliente">
+            <div class="card bg-custom-secondary">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="card-title">{{ clienteEncontrado?.nombreCliente }}</h5>
+                    <p class="card-text mb-1">
+                      C.C: {{ clienteEncontrado?.idCliente }} | Tel:
+                      {{ clienteEncontrado?.telefonoCliente }}
+                    </p>
+                    <p class="card-text mb-0">
+                      Vehículos: {{ clienteEncontrado.vehiculos.join(', ') }}
+                    </p>
+                  </div>
+                  <button class="btn btn-sm" (click)="limpiarCliente()">✕</button>
+                </div>
+                <div class="mt-2 d-flex gap-2">
+                  <select class="form-select w-auto" aria-label="Placa del vehículo">
+                    <option *ngFor="let placa of clienteEncontrado.vehiculos" [value]="placa">
+                      {{ placa }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #sinCliente></ng-template>
+        </div>
+      </div>
+
+      <!-- Crear Reserva -->
+      <div class="card h-100" *ngIf="clienteEncontrado">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Crear Reserva</h5>
+
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold mb-1">Colaborador</label>
+              <select class="form-select form-select-sm" [(ngModel)]="reservaSeleccionada.colaboradorId">
+                <option value="{{ colaborador.idColaborador }}" *ngFor="let colaborador of colaboradores">
+                  {{ colaborador.nombreColaborador }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold mb-1">Tipo de vehículo</label>
+              <select class="form-select form-select-sm" [(ngModel)]="reservaSeleccionada.tipoVehiculoId">
+                <option value="{{ tipo.id }}" *ngFor="let tipo of tiposVehiculo">
+                  {{ tipo.nombreTipoVehiculo }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold mb-1">Fecha</label>
+              <input type="date" class="form-control form-control-sm" [(ngModel)]="reservaSeleccionada.fecha"
+                value="2026-02-01" />
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold mb-1">Servicio</label>
+              <select class="form-select form-select-sm" [(ngModel)]="reservaSeleccionada.servicioId">
+                <option value="{{ servicio.id }}" *ngFor="let servicio of servicios">
+                  {{ servicio.nombreServicio }} -
+                  {{ servicio.precio | currency: 'COP' : 'symbol' : '1.0-0' }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-12 col-md-6">
+              <label class="form-label fw-semibold mb-1">Hora</label>
+              <select class="form-select form-select-sm" [(ngModel)]="reservaSeleccionada.hora">
+                <option *ngFor="let horario of disponibilidades" [value]="horario">
+                  {{ horario }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn btn-custom-primary w-100" type="button" (click)="crearReserva()">
+            Crear reserva
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6 d-flex flex-column gap-3">
+      <!-- Reservas de hoy -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reservas de hoy</h5>
+          <p class="card-text">Activa las reservas cuando el cliente llegue al lavadero</p>
+
+          <div class="d-flex flex-column gap-3" *ngIf="reservas.length > 0; else sinReservas">
+            <div class="card" *ngFor="let reserva of reservas">
+              <div class="card-body">
+                <div class="spinner-border bg-custom-tertirary" role="status"
+                  *ngIf="reserva.estado === estadosReserva[1]"></div>
+                <span class="badge bg-custom-tertiary">{{ reserva.estado }}</span>
+                <h5 class="card-title">{{ reserva.nombreCliente }}</h5>
+                <p class="card-text">
+                  {{ reserva.nombreColaborador }} | {{ reserva.tipoVehiculo }} -
+                  {{ reserva.servicio }}
+                </p>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-custom-primary" type="button" (click)="iniciarReserva(reserva.id)"
+                    *ngIf="reserva.estado === estadosReserva[0]">
+                    <i class="bi bi-play"></i>
+                    Iniciar lavado
+                  </button>
+                  <!-- <button class="btn btn-custom-primary" type="button" (click)="finalizarReserva(contenido, reserva.id)"
+                    *ngIf="reserva.estado === estadosReserva[1]">
+                    <i class="bi bi-stop"></i>
+                    Finalizar Lavado
+                  </button> -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    (click)="finalizarReserva(reserva.id)" *ngIf="reserva.estado === estadosReserva[1]">
+                    <i class="bi bi-stop"></i>Finalizar Lavado
+                  </button>
+
+                  <!-- Modal -->
+                  <div class="modal fade text-center" id="staticBackdrop" data-bs-backdrop="static"
+                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">Recibo de pago: #{{reserva.id}}</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start bg-white">
+                          <!-- Fecha y Hora -->
+                          <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-secondary opacity-75">Fecha:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.fecha}}</span>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary opacity-75">Hora:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.hora}}</span>
+                          </div>
+                          <hr class="my-3 border-secondary opacity-25">
+
+                          <!-- Datos del Cliente -->
+                          <h5 class="fw-bold text-dark mb-3" style="font-size: 1rem;">Datos del Cliente</h5>
+                          <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-secondary opacity-75">Nombre:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.clienteId}}</span>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-secondary opacity-75">Documento:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.clienteId}}</span>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary opacity-75">Placa:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.clienteId}}</span>
+                          </div>
+                          <hr class="my-3 border-secondary opacity-25">
+
+                          <!-- Detalle del Servicio -->
+                          <h5 class="fw-bold text-dark mb-3" style="font-size: 1rem;">Detalle del Servicio</h5>
+                          <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-secondary opacity-75">Vehículo:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.tipoVehiculoId}}</span>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-secondary opacity-75">Servicio:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.servicioId}}</span>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-secondary opacity-75">Colaborador:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada.colaboradorId}}</span>
+                          </div>
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary opacity-75">Duración:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada}}</span>
+                          </div>
+                          <hr class="my-3 border-secondary opacity-25">
+
+                          <!-- Método de Pago -->
+                          <div class="d-flex justify-content-between align-items-center mb-4">
+                            <span class="text-secondary opacity-75">Método de Pago:</span>
+                            <span class="fw-bold text-dark">{{reservaSeleccionada}}</span>
+                          </div>
+
+                          <!-- Contenedor del Total -->
+                          <div class="d-flex justify-content-between align-items-center p-3 rounded-3"
+                            style="background-color: #e9ecef;">
+                            <span class="fw-bold text-dark" style="font-size: 1.1rem;">Total:</span>
+                            <span class="fw-bold text-dark" style="font-size: 1.25rem;">$ {{ reservaSeleccionada.precio }}</span>
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-custom-tertiary" data-bs-dismiss="modal"><i
+                              class="bi bi-x-circle"></i>Cerrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline-dark" type="button" (click)="cancelarReserva(reserva.id)">
+                    <i class="bi bi-x-circle"></i>Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #sinReservas>
+            <div class="text-center py-4">
+              <p class="text-muted mb-0">No hay reservas pendientes</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Lavados completados -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Lavados completados</h5>
+          <p class="card-text">Lista de lavados completados para el día de hoy</p>
+
+          <div class="d-flex flex-column gap-3" *ngIf="reservasCompletadas.length > 0; else sinReservasCompletadas">
+            <div class="card bg-custom-secondary" *ngFor="let reserva of reservasCompletadas">
+              <div class="card-body">
+                <h5 class="card-title">{{ reserva.nombreCliente }}</h5>
+                <p class="card-text">
+                  {{ reserva.nombreColaborador }} | {{ reserva.tipoVehiculo }} -
+                  {{ reserva.servicio }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #sinReservasCompletadas>
+            <div class="text-center py-4">
+              <p class="text-muted mb-0">No hay lavados completados</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

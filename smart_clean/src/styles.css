@@ -1,0 +1,113 @@
+/* src/styles.css */
+:root {
+  --color-primary: #2b78e4;
+  --color-secondary: #9fc5f8;
+  --color-tertiary: #8474b0;
+}
+
+/* Clases personalizadas para botones */
+.btn-custom-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.btn-custom-primary:hover {
+  background-color: #1e5cb3;
+  border-color: #1e5cb3;
+  color: white;
+}
+
+.btn-custom-secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: #2b78e4;
+}
+
+.btn-custom-secondary:hover {
+  background-color: #7eaee0;
+  border-color: #7eaee0;
+  color: #1e5cb3;
+}
+
+.btn-custom-tertiary {
+  background-color: var(--color-tertiary);
+  border-color: var(--color-tertiary);
+  color: white;
+}
+
+.btn-custom-tertiary:hover {
+  background-color: #6a5c8d;
+  border-color: #6a5c8d;
+  color: white;
+}
+
+/* Versiones outline */
+.btn-outline-custom-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-outline-custom-primary:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-outline-custom-secondary {
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-outline-custom-secondary:hover {
+  background-color: var(--color-secondary);
+  color: #2b78e4;
+}
+
+.btn-outline-custom-tertiary {
+  color: var(--color-tertiary);
+  border-color: var(--color-tertiary);
+}
+
+.btn-outline-custom-tertiary:hover {
+  background-color: var(--color-tertiary);
+  color: white;
+}
+
+/* Clases de texto */
+.text-custom-primary {
+  color: var(--color-primary) !important;
+}
+
+.text-custom-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.text-custom-tertiary {
+  color: var(--color-tertiary) !important;
+}
+
+/* Clases de fondo */
+.bg-custom-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-custom-secondary {
+  background-color: var(--color-secondary) !important;
+}
+
+.bg-custom-tertiary {
+  background-color: var(--color-tertiary) !important;
+}
+
+/* Clases de border */
+.border-custom-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.border-custom-secondary {
+  border-color: var(--color-secondary) !important;
+}
+
+.border-custom-tertiary {
+  border-color: var(--color-tertiary) !important;
+}

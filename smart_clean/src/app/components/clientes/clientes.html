@@ -1,0 +1,180 @@
+<div mt-6 class="container mt-6">
+    <div>
+        <h2>Clientes</h2>
+
+
+        <div *ngIf="mensajeExito" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+            ✅ Cliente guardado correctamente.
+        </div>
+
+        <p>Aquí podrás administrar la información de los clientes.</p>
+
+
+
+
+        <button class="btn btn-primary" (click)="guardarCliente()">
+            {{ modoEdicion ? 'Actualizar Cliente' : 'Agregar Cliente' }}
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                            Agrega nuevo cliente
+                        </h1>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form>
+
+                            <div class="mb-3">
+                                <label for="nombreCliente" class="form-label">Nombre</label>
+
+                                <input type="text" class="form-control" id="nombreCliente" name="nombreCliente"
+                                    [(ngModel)]="nuevoCliente.nombreCliente" (keypress)="soloLetras($event)">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellidoCliente" class="form-label">Apellido</label>
+
+                                <input type="text" class="form-control" id="apellidoCliente" name="apellidoCliente"
+                                    [(ngModel)]="nuevoCliente.apellidoCliente" (keypress)="soloLetras($event)">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tipoDocumentoCliente" class="form-label">
+                                    Tipo de documento
+                                </label>
+
+                                <select class="form-select" id="tipoDocumentoCliente" name="tipoDocumentoCliente"
+                                    [(ngModel)]="nuevoCliente.tipoDocumentoCliente">
+
+                                    <option selected>Selecciona una opción</option>
+                                    <option value="1">C.C.</option>
+                                    <option value="2">T.I.</option>
+                                    <option value="3">C.E.</option>
+                                    <option value="4">NIT</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="numeroDocumentoCliente" class="form-label">
+                                    Número de documento
+                                </label>
+
+                                <input type="text" class="form-control" id="numeroDocumentoCliente"
+                                    name="numeroDocumentoCliente" [(ngModel)]="nuevoCliente.numeroDocumentoCliente"
+                                    (keypress)="soloNumeros($event)">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefonoCliente" class="form-label">
+                                    Teléfono
+                                </label>
+
+                                <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente"
+                                    [(ngModel)]="nuevoCliente.telefonoCliente" (keypress)="soloNumeros($event)">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correoCliente" class="form-label">
+                                    Correo electrónico
+                                </label>
+
+                                <input type="email" class="form-control" id="correoCliente" name="correoCliente"
+                                    [(ngModel)]="nuevoCliente.correoCliente"
+                                    pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com)$"
+                                    #correo="ngModel" required>
+                            </div>
+
+                            <div *ngIf="correo.invalid && correo.touched" class="text-danger mt-1">
+                                Debe ingresar un correo válido
+                                (gmail.com, hotmail.com u outlook.com).
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cerrar
+                        </button>
+
+                        <button type="button" class="btn btn-primary" (click)="guardarCliente()">
+                            Guardar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <h4 class="mt-4 mb-3">Lista de clientes</h4>
+
+    <div class="table-responsive">
+
+
+        <table class="table table-striped table-hover table-bordered align-middle">
+
+            <thead class="encabezado-tabla">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Tipo Documento</th>
+                    <th>Número Documento</th>
+                    <th>Teléfono</th>
+                    <th>Correo Electrónico</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let cliente of clientes; let i = index">
+
+                    <td>{{ i + 1 }}</td>
+
+                    <td>{{ cliente.nombreCliente }}</td>
+
+                    <td>{{ cliente.apellidoCliente }}</td>
+
+                    <td>{{ cliente.tipoDocumentoCliente }}</td>
+
+                    <td>{{ cliente.numeroDocumentoCliente }}</td>
+
+                    <td>{{ cliente.telefonoCliente }}</td>
+
+                    <td>{{ cliente.correoCliente }}</td>
+
+                    <td>
+                        <button class="btn btn-warning btn-sm me-2" (click)="editarCliente(cliente)">
+                            Editar
+                        </button>
+
+
+                        <button class="btn btn-danger btn-sm" (click)="eliminarCliente(cliente.idCliente)">
+                            Eliminar
+                        </button>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+</div>

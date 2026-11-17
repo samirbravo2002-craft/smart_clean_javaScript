@@ -1,0 +1,132 @@
+<div mt-6 class="container mt-6">
+  <div>
+    <h2>Empleados</h2>
+    <div *ngIf="mensajeExito" class="alert alert-success alert-dismissible fade show mt-2" role="alert"> Empleado
+      guardado correctamente. </div>
+    <p>Aquí podrás administrar la información de los empleados.</p>
+    <!-- <button class="btn btn-primary"> Agregar empleado </button> --> <button type="button" class="btn btn-primary"
+      data-bs-toggle="modal" data-bs-target="#staticBackdrop"> Agregar empleado </button> <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Agrega nuevo empleado</h1>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3"> <label for="nombreColaborador" class="form-label">Nombre</label> <input type="text"
+                  class="form-control" id="nombreColaborador" name="nombreColaborador"
+                  [(ngModel)]="nuevoEmpleado.nombreColaborador" (keypress)="soloLetras($event)"> </div>
+
+              <div class="mb-3"> <label for="apellidoColaborador" class="form-label">Apellido</label> <input type="text"
+                  class="form-control" id="apellidoColaborador" name="apellidoColaborador"
+                  [(ngModel)]="nuevoEmpleado.apellidoColaborador" (keypress)="soloLetras($event)"> </div>
+
+              <div class="mb-3"> <label for="tipoDocumentoColaborador" class="form-label">Tipo de documento</label>
+                <select class="form-select" aria-label="Default select example" id="tipoDocumentoColaborador"
+                  name="tipoDocumentoColaborador" [(ngModel)]="nuevoEmpleado.tipoDocumentoColaborador">
+                  <option selected>Selecciona una opción</option>
+                  <option value="1">C.C.</option>
+                  <option value="2">T.I.</option>
+                  <option value="3">C.E.</option>
+                  <option value="4">NIT</option>
+                </select>
+              </div>
+
+              <div class="mb-3"> <label for="numeroDocumentoColaborador" class="form-label">Numero de documento</label>
+                <input type="text" class="form-control" id="numeroDocumentoColaborador"
+                  name="numeroDocumentoColaborador" [(ngModel)]="nuevoEmpleado.numeroDocumentoColaborador"
+                  (keypress)="soloNumeros($event)">
+              </div>
+
+              <div class="mb-3"> <label for="telefonoColaborador" class="form-label">Telefono</label> <input type="text"
+                  class="form-control" id="telefonoColaborador" name="telefonoColaborador"
+                  [(ngModel)]="nuevoEmpleado.telefonoColaborador" (keypress)="soloNumeros($event)"> </div>
+
+              <div class="mb-3"> <label for="correoColaborador" class="form-label">Correo electronico</label> <input
+                  type="email" class="form-control" id="correoColaborador" name="correoColaborador"
+                  [(ngModel)]="nuevoEmpleado.correoColaborador"
+                  pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com)$" #correo="ngModel" required>
+              </div>
+
+              <div *ngIf="correo.invalid && correo.touched" class="text-danger mt-1"> Debe ingresar un correo válido
+                (gmail.com, hotmail.com u outlook.com). </div>
+
+            </form>
+
+          </div>
+
+          <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">Cerrar</button> <button type="button" class="btn btn-primary"
+              (click)="guardarEmpleado()">Guardar </button> </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  
+
+  <h4 class="mt-4 mb-3">Lista de empleados</h4>
+
+  <div class="table-responsive">
+
+    <table class="table table-striped table-hover table-bordered align-middle">
+
+      <thead class="encabezado-tabla">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Tipo Documento</th>
+          <th>Número Documento</th>
+          <th>Teléfono</th>
+          <th>Correo Electrónico</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let empleado of empleados; let i = index">
+
+          <td>{{ i + 1 }}</td>
+
+          <td>{{ empleado.nombreColaborador }}</td>
+
+          <td>{{ empleado.apellidoColaborador }}</td>
+
+          <td>{{ empleado.tipoDocumentoColaborador }}</td>
+
+          <td>{{ empleado.numeroDocumentoColaborador }}</td>
+
+          <td>{{ empleado.telefonoColaborador }}</td>
+
+          <td>{{ empleado.correoColaborador }}</td>
+
+          <td>
+
+              <button class="btn btn-sm" (click)="editarEmpleado(empleado)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button class="btn btn-sm" (click)="eliminarEmpleado(empleado.idColaborador)">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+</div>

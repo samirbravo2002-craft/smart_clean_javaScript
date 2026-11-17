@@ -1,0 +1,145 @@
+<div class="card">
+    <div class="card-body">
+        <h4 class="fs-4">Novedades Internas</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Ticket</th>
+                    <th scope="col">Numero de documento</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Fecha Reporte</th>
+                    <th scope="col">Etapa Novedad</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>1236</td>
+                    <td>12367</td>
+                    <td>12369</td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>12365</td>
+                    <td>O12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                    <td>12365</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center my-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Crear Novedad
+        </button>
+    </div>
+
+</div>
+
+
+
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crear Novedad/Editar Novedad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <!-- 1. Tipo de Novedad (Se agregó mb-3) -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingSelectTipo" aria-label="Floating label select example">
+                            <option selected>Selecciona una opción</option>
+                            <option value="1">Implementos</option>
+                            <option value="2">Estructural</option>
+                            <option value="3">Espacio de Trabajo</option>
+                            <option value="4">Manguera</option>
+                        </select>
+                        <label for="floatingSelectTipo">Tipo de novedad</label>
+                    </div>
+
+                    <!-- 2. Ticket de Novedad (Ya tenía mb-3) -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInputTicket" placeholder="">
+                        <label for="floatingInputTicket">Ticket de Novedad</label>
+                    </div>
+
+                    <!-- 3. Colaboradores (Se agregó mb-3) -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingSelectColab" aria-label="Floating label select example">
+                            <option selected>Selecciona una opción</option>
+                            <option value="1">Juan Bolivar</option>
+                            <option value="2">Guillermo Santana</option>
+                            <option value="3">Tom Welling</option>
+                            <option value="4">Clark Kent</option>
+                        </select>
+                        <label for="floatingSelectColab">Colaboradores</label>
+                    </div>
+
+                    <!-- 4. Descripción (Se agregó mb-3 para separarlo de los botones) -->
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Descripcion</label>
+                    </div>
+
+                    <!-- Footer del Modal -->
+                    <div class="modal-footer px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
